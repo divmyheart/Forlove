@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>A Special Moment Just For You 💖</title>
+  
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    
+    body {
+      font-family: "Inter", sans-serif;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem; 
+
+     
+      background-image: url("billboard.jpg"); 
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      
+      background-blend-mode: overlay; 
+      background-color: rgba(255, 255, 255, 0.7); 
+      animation: fadeInBackground 1.5s ease-out forwards; 
+    }
+
+    @keyframes fadeInBackground {
+        from { background-color: rgba(255, 255, 255, 1); }
+        to { background-color: rgba(255, 255, 255, 0.7); } 
+    }
+
+    
+    #surprise {
+      transform: scale(0.9); 
+      transition: opacity 1000ms ease-out, transform 1000ms ease-out; 
+      will-change: opacity, transform; 
+    }
+
+    
+    #surprise.hidden {
+      opacity: 0;
+      pointer-events: none; 
+      transform: scale(0.9); 
+    }
+
+    
+    #surprise.visible {
+      opacity: 1;
+      transform: scale(1);
+    }
+
+    
+    .btn-gradient:hover::before {
+      opacity: 1;
+      transform: scale(1.05);
+    }
+
+    .btn-gradient::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, #f0abfc, #ec4899);
+      opacity: 0;
+      transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
+      border-radius: 9999px; 
+      z-index: 0; 
+    }
+
+    .btn-gradient span {
+        position: relative; 
+        z-index: 10;
+    }
+
+   
+    audio {
+        outline: none; 
+        border-radius: 0.75rem; 
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); 
+    }
+    
+    #messageAfterUnwrap {
+        font-size: 1.875rem; 
+        font-weight: 700; 
+        
+        
+        background-image: linear-gradient(to right, #ec4899, #ef4444); 
+        -webkit-background-clip: text; 
+        background-clip: text;
+        -webkit-text-fill-color: transparent; 
+        color: transparent; 
+
+        margin-top: 1rem;
+        margin-bottom: 1rem; 
+        opacity: 0; 
+        transition: opacity 0.5s ease-in-out; 
+        z-index: 20; 
+    }
+    #messageAfterUnwrap.visible {
+        opacity: 1;
+    }
+  </style>
+</head>
+<body class="min-h-screen flex items-center justify-center font-sans text-gray-900 p-4">
+  <div class="relative bg-white/80 backdrop-blur-md rounded-3xl shadow-2xl p-8 sm:p-12 max-w-md w-full text-center border border-white/20 overflow-hidden transition-all duration-500 ease-in-out transform hover:scale-105 z-10">
+    <h1 class="text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-red-500 to-pink-600 mb-4 animate-pulse">
+      My Love 
+    </h1>
+    <p class="text-lg text-gray-700 mb-8 font-medium leading-relaxed">
+        Tumhare saath bitaya har pal mere liye khaas hai.
+        Na zyada fancy baatein, na bade vaade…
+        Bas hum ho, aur tum ho 
+    </p>
+    <div class="relative min-h-[64px] flex items-center justify-center"> 
+        <button id="surpriseButton" class="btn-gradient absolute px-8 py-4 bg-gradient-to-r from-pink-500 to-red-600 text-white font-bold rounded-full shadow-lg hover:shadow-xl transition-all duration-300 ease-in-out transform hover:scale-105 active:scale-95 focus:outline-none focus:ring-4 focus:ring-pink-300 overflow-hidden group">
+            <span>kiss me </span>
+        </button>
+        <div id="messageAfterUnwrap" class="absolute hidden">
+            I love you baby! ❤️
+        </div>
+    </div>
+
+
+    <div id="surprise" class="hidden mt-8 flex flex-col items-center space-y-6">
+     
+      <video
+        id="surpriseVideo"
+        src="VIDEO.mp4"
+        alt="A special video for my beloved"
+        class="w-64 h-64 object-cover rounded-2xl shadow-lg border-4 border-pink-300 transform hover:rotate-3 transition-transform duration-300"
+        autoplay
+        loop
+        muted
+        playsinline
+        ></video>
+      </video>
+
+      <p class="text-xl text-gray-800 font-semibold italic">
+        "kal k liyea sorry 😭  "
+      </p>
+
+     
+      <audio id="backgroundSong" loop class="w-full max-w-xs rounded-lg shadow-md accent-pink-600">
+        <source src="Mi Amor.mp3" type="audio/mp3" />
+        Your browser does not support the audio element.
+      </audio>
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const surpriseButton = document.getElementById('surpriseButton');
+      const surpriseDiv = document.getElementById('surprise');
+      const surpriseVideo = document.getElementById('surpriseVideo');
+      const backgroundSong = document.getElementById('backgroundSong');
+      const messageAfterUnwrap = document.getElementById('messageAfterUnwrap'); 
+
+     
+      surpriseButton.addEventListener('click', () => {
+        if (surpriseDiv.classList.contains('hidden')) {
+          
+          surpriseDiv.classList.remove('hidden');
+          surpriseButton.classList.add('hidden'); 
+          messageAfterUnwrap.classList.remove('hidden');
+          setTimeout(() => {
+            surpriseDiv.classList.add('visible');
+            messageAfterUnwrap.classList.add('visible'); 
+            if (surpriseVideo) {
+                surpriseVideo.play().catch(e => {
+                    console.error("Video autoplay blocked or failed:", e);
+                });
+            }
+            if (backgroundSong) {
+              backgroundSong.volume = 1; 
+              backgroundSong.play().catch(e => {
+                console.error("Audio autoplay blocked or failed:", e);
+              });
+            }
+          }, 10);
+
+        } else {
+          
+          surpriseDiv.classList.remove('visible');
+          messageAfterUnwrap.classList.remove('visible'); 
+          setTimeout(() => {
+            surpriseDiv.classList.add('hidden');
+            surpriseButton.classList.remove('hidden'); 
+            messageAfterUnwrap.classList.add('hidden'); 
+            if (surpriseVideo) {
+                surpriseVideo.pause();
+                surpriseVideo.currentTime = 0;
+            }
+            if (backgroundSong) {
+              backgroundSong.pause();
+              backgroundSong.currentTime = 0;
+            }
+          }, 1000);
+        }
+      });
+    });
+  </script>
+</body>
+</html>
